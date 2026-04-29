@@ -25,7 +25,7 @@
             --shadow: rgba(124, 179, 66, 0.15);
             --success: #4CAF50;           
             --warning: #FF9800;          
-            --info: #2196F3;              
+            --info: #2196F3;             
         }
 
         body {
@@ -159,12 +159,12 @@
             font-weight: bold;
         }
         .title::before, .title::after {
-            content: "🌿";
+            content: "??";
             font-size: 28px;
             opacity: 0.8;
         }
 
-        /* 课程网格布局样式 */
+ 
         .course-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -180,7 +180,6 @@
             padding: 30px 25px;
             text-align: center;
             transition: all 0.3s ease;
-            /* 垂直布局，保证顺序 */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -190,7 +189,7 @@
             box-shadow: 0 12px 30px rgba(0,0,0,0.1);
             border-color: var(--yellow);
         }
-        /* 课程标题样式 */
+       
         .course-card h3 {
             font-size: 24px;
             color: var(--primary-dark);
@@ -213,7 +212,7 @@
             background-color: var(--white);
             box-shadow: inset 0 0 30px rgba(124, 179, 66, 0.1);
         }
-        /* 课程图片 */
+      
         .course-img.transpiration { background-image: url("images/主题.png"); }
         .course-img.photosynthesis { background-image: url("images/光合作用.png"); }
         .course-img.respiration { background-image: url("images/呼吸作用.png"); }
@@ -300,7 +299,7 @@
             background-position: center;
             background-repeat: no-repeat;
             opacity: 0.05;
-            z-index: 1;
+            z-index: -1; 
         }
         .inter-box {
             display: grid;
@@ -360,11 +359,13 @@
             font-size: 20px;
         }
 
-        /* 评论互动板块样式 */
+ 
         .comment-section {
             max-width: 1000px;
             margin: 60px auto 0;
             padding: 0 25px;
+            position: relative;
+            z-index: 2; 
         }
         .comment-card {
             background: var(--white);
@@ -461,7 +462,7 @@
             font-size: 16px;
             line-height: 1.5;
         }
-        /* 滚动条美化 */
+       
         .comment-list::-webkit-scrollbar {
             width: 8px;
         }
@@ -484,7 +485,7 @@
             box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
         }
 
-        /* 响应式适配 */
+       
         @media (max-width: 1200px) {
             .banner { height: 450px; }
             .banner h1 { font-size: 48px; }
@@ -511,7 +512,7 @@
 
 <header>
     <div class="header-box">
-        <div class="logo">🌱 植物园</div>
+        <div class="logo">?? 植物园</div>
         <nav>
             <a href="Untitled-1.html" class="active">首页</a>
             <a>学习资源</a>
@@ -532,9 +533,9 @@
 
 <div class="container">
     <h2 class="title">课程介绍</h2>
-    <!-- 2×2课程网格 结构：标题→文字→图片→按钮 -->
+ 
     <div class="course-grid">
-        <!-- 蒸腾作用 -->
+       
         <div class="course-card">
             <h3>植物蒸腾作用</h3>
             <div class="course-text">
@@ -543,7 +544,7 @@
             <div class="course-img transpiration"></div>
             <a href="#" class="btn">查看课程</a>
         </div>
-        <!-- 光合作用 -->
+       
         <div class="course-card">
             <h3>植物光合作用</h3>
             <div class="course-text">
@@ -552,7 +553,7 @@
             <div class="course-img photosynthesis"></div>
             <a href="#" class="btn">查看课程</a>
         </div>
-        <!-- 呼吸作用 -->
+       
         <div class="course-card">
             <h3>植物呼吸作用</h3>
             <div class="course-text">
@@ -561,7 +562,7 @@
             <div class="course-img respiration"></div>
             <a href="#" class="btn">查看课程</a>
         </div>
-        <!-- 细胞结构 -->
+       
         <div class="course-card">
             <h3>植物细胞结构</h3>
             <div class="course-text">
@@ -577,25 +578,25 @@
     <h2 class="title">学习资源</h2>
     <div class="resource-box">
         <div class="card">
-            <div class="icon">📚</div>
+            <div class="icon">??</div>
             <h3>微课课件</h3>
             <p>完整课件、学习单下载，辅助课堂学习与课后复习</p>
             <a href="微课课件.html" class="btn">立即下载</a>
         </div>
         <div class="card">
-            <div class="icon">🎥</div>
+            <div class="icon">??</div>
             <h3>微课视频</h3>
             <p>高清动画微课视频，随时随地反复观看学习</p>
             <a href="微课视频.html" class="btn">立即观看</a>
         </div>
         <div class="card">
-            <div class="icon">🔬</div>
+            <div class="icon">??</div>
             <h3>拓展资料</h3>
             <p>植物科普文章、实验指南，拓展知识边界</p>
             <a href="拓展资料.html" class="btn">开始学习</a>
         </div>
         <div class="card">
-            <div class="icon">🎨</div>
+            <div class="icon">??</div>
             <h3>学习工具</h3>
             <p>观察记录表、绘画模板，助力探究式学习</p>
             <a href="#" class="btn">获取工具</a>
@@ -608,7 +609,7 @@
         <h2 class="title">学习互动</h2>
         <div class="inter-box">
             <div class="inter-item">
-                <div class="inter-icon">🧩</div>
+                <div class="inter-icon">??</div>
                 <div class="inter-content">
                     <h3>在线答题</h3>
                     <p>完成课后趣味答题，检验学习成果</p>
@@ -617,7 +618,7 @@
             </div>
             
             <div class="inter-item">
-                <div class="inter-icon">📤</div>
+                <div class="inter-icon">??</div>
                 <div class="inter-content">
                     <h3>作业提交</h3>
                     <p>上传观察报告、创意作品，老师在线点评指导</p>
@@ -626,7 +627,7 @@
             </div>
             
             <div class="inter-item">
-                <div class="inter-icon">🏆</div>
+                <div class="inter-icon">??</div>
                 <div class="inter-content">
                     <h3>学习勋章</h3>
                     <p>完成答题和作业，解锁专属植物勋章</p>
@@ -635,11 +636,11 @@
             </div>
         </div>
 
-        <!-- 评论互动板块 -->
+      
         <div class="comment-section">
             <div class="comment-card">
-                <h2 class="title" style="margin-bottom: 20px; font-size: 28px;">💬 评论互动区</h2>
-                <!-- 评论输入框 -->
+                <h2 class="title" style="margin-bottom: 20px; font-size: 28px;">?? 评论互动区</h2>
+               
                 <div class="comment-input-box">
                     <h4>我要提问/评论</h4>
                     <input type="text" class="comment-user-name" id="commentUserName" placeholder="请输入你的昵称">
@@ -647,9 +648,9 @@
                     <button class="btn comment-submit" onclick="submitComment()">提交评论</button>
                 </div>
 
-                <!-- 评论列表 -->
+              
                 <div class="comment-list" id="commentList">
-                    <!-- 示例评论1 -->
+                  
                     <div class="comment-item">
                         <div class="comment-header">
                             <span class="comment-username">小欣</span>
@@ -666,7 +667,7 @@
                         </div>
                     </div>
 
-                    <!-- 示例评论2 -->
+                   
                     <div class="comment-item">
                         <div class="comment-header">
                             <span class="comment-username">小树</span>
@@ -689,18 +690,18 @@
 </div>
 
 <footer>
-    <p>© 2026 植物园 · 微课拓展学习平台</p>
+    <p>? 2026 植物园 · 微课拓展学习平台</p>
 </footer>
 
-<!-- 评论功能JS -->
+
 <script>
-    // 提交评论功能
+  
     function submitComment() {
-        // 获取输入的昵称和评论内容
+        
         const userName = document.getElementById('commentUserName').value.trim();
         const content = document.getElementById('commentContent').value.trim();
         
-        // 验证输入
+       
         if (!userName) {
             alert('请输入你的昵称！');
             return;
@@ -710,15 +711,15 @@
             return;
         }
 
-        // 获取当前时间
+       
         const now = new Date();
-        const timeStr = now.getFullYear() + '-' + 
-                        (now.getMonth() + 1).toString().padStart(2, '0') + '-' + 
-                        now.getDate().toString().padStart(2, '0') + ' ' + 
-                        now.getHours().toString().padStart(2, '0') + ':' + 
+        const timeStr = now.getFullYear() + '-' +
+                        (now.getMonth() + 1).toString().padStart(2, '0') + '-' +
+                        now.getDate().toString().padStart(2, '0') + ' ' +
+                        now.getHours().toString().padStart(2, '0') + ':' +
                         now.getMinutes().toString().padStart(2, '0');
 
-        // 创建新评论元素
+       
         const commentItem = document.createElement('div');
         commentItem.className = 'comment-item';
         commentItem.innerHTML = `
@@ -737,19 +738,19 @@
             </div>
         `;
 
-        // 添加到评论列表顶部
+       
         const commentList = document.getElementById('commentList');
         commentList.insertBefore(commentItem, commentList.firstChild);
 
-        // 清空输入框
+       
         document.getElementById('commentUserName').value = '';
         document.getElementById('commentContent').value = '';
 
-        // 提示提交成功
+      
         alert('评论提交成功！老师会尽快回复你～');
     }
 
-    // （老师端功能）回复评论 - 可在控制台调用，或后续加老师登录后显示回复按钮
+  
     function replyComment(replyId, content) {
         const replyElement = document.getElementById(replyId);
         if (replyElement) {
