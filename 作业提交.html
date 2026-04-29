@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>植物园 · 作业提交中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Comic Sans MS', sans-serif;
+        }
+
+        
+        :root {
+            --primary: #7CB342;          
+            --primary-dark: #2C5F2D;     
+            --light: #FFF8E1;             
+            --yellow: #FFC107;           
+            --yellow-light: #FFECB3;      
+            --text: #424242;             
+            --white: #FFFFFF;             
+            --light-green: #E8F5E9;      
+            --shadow: rgba(124, 179, 66, 0.15); 
+            --success: #4CAF50;           
+            --warning: #FF9800;           
+            --info: #2196F3;             
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        
+        header {
+            background: var(--primary);
+            padding: 18px 50px;
+            color: var(--white);
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .header-box {
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        nav a {
+            color: var(--white);
+            margin-left: 35px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+       
+        nav a.active {
+            color: var(--yellow);
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: var(--yellow);
+            text-decoration: underline;
+        }
+
+       
+        .banner {
+    background-image: url("images/大背景.jpg");
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    height: 650px; 
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 0 0 40px 40px;
+    overflow: hidden;
+}
+.banner::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(to top, var(--light), transparent);
+}
+.banner-content {
+    max-width: 800px;
+    text-align: center;
+    padding: 0;
+    background: none;
+    z-index: 2;
+}
+.banner h1 {
+    font-size: 72px; 
+    margin-bottom: 25px;
+    color: #1B5E20;
+    text-shadow: 2px 2px 4px rgba(255,255,255,0.7);
+    letter-spacing: 2px;
+    font-weight: 800;
+    font-style: normal; 
+}
+.banner p {
+    font-size: 31px; 
+    margin-bottom: 35px;
+    color: #2C5F2D;
+    text-shadow: 1px 1px 3px rgba(255,255,255,0.7);
+    line-height: 1.8; 
+    font-weight: 500;
+}
+        .btn {
+            display: inline-block;
+            background: var(--yellow);
+            color: var(--text);
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+            background: #FFA000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 25px;
+        }
+        .title {
+            text-align: center;
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            font-weight: bold;
+        }
+        .title::before, .title::after {
+            content: "🌿";
+            font-size: 28px;
+            opacity: 0.8;
+        }
+
+       
+        .task-section {
+            margin-bottom: 60px;
+        }
+        .task-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .task-card {
+            background: var(--white);
+            padding: 35px 30px;
+            border-radius: 25px;
+            box-shadow: 0 8px 25px var(--shadow);
+            border: 3px solid var(--primary);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            
+            min-height: 850px;
+        }
+       
+        .task-card .steps {
+    margin: 15px 0;
+    padding-left: 20px;
+    font-size: 18px;
+    line-height: 1.8;
+        }
+        .task-card .steps li {
+    margin-bottom: 8px;
+    font-size: 18px;
+        }
+        
+        
+        .qrcode-box {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: var(--light-green);
+            border-radius: 15px;
+            border: 2px dashed var(--primary);
+            align-self: stretch; 
+            margin-top: auto;
+            margin-bottom: 30px;
+        }
+        .qrcode-box p {
+            font-size: 18px;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        .qrcode-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+            background: #f5f5f5;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 12px;
+        }
+
+        .task-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+            border-color: var(--yellow);
+        }
+       
+        .status-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--white);
+        }
+        .status-tag.wait { background: var(--warning); }
+        .status-tag.submitted { background: var(--info); }
+        .status-tag.checked { background: var(--success); }
+
+        .task-card h3 {
+            font-size: 22px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .task-card .deadline {
+            font-size: 15px;
+            color: var(--warning);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        .task-card p {
+    font-size: 18px;
+    margin-bottom: 15px;
+    line-height: 1.7;
+        }
+        .task-card .btn {
+            padding: 10px 30px;
+            font-size: 16px;
+            margin-top: 10px;
+            align-self: center;
+           
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+       
+        .submit-section {
+            background: var(--light-green);
+            padding: 60px 30px;
+            border-radius: 30px;
+            box-shadow: 0 8px 25px var(--shadow);
+            border-top: 5px solid var(--primary);
+            margin-bottom: 60px;
+        }
+        .submit-form {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .form-group label {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        .form-group select,
+        .form-group input[type="file"],
+        .form-group textarea {
+            padding: 15px 20px;
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            font-size: 16px;
+            background: var(--white);
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--yellow);
+            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        .file-hint {
+            font-size: 14px;
+            color: var(--text);
+            opacity: 0.8;
+        }
+        .submit-form .btn {
+            align-self: center;
+            margin-top: 20px;
+            padding: 15px 50px;
+            font-size: 18px;
+        }
+
+    
+        .history-section {
+            margin-bottom: 60px;
+        }
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px var(--shadow);
+            border: 3px solid var(--primary);
+        }
+        .history-table thead {
+            background: var(--primary);
+            color: var(--white);
+        }
+        .history-table th,
+        .history-table td {
+            padding: 18px 20px;
+            text-align: center;
+            font-size: 16px;
+            border-bottom: 1px solid rgba(124, 179, 66, 0.1);
+        }
+        .history-table tbody tr:hover {
+            background: var(--light-green);
+        }
+        .history-table .status {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--white);
+        }
+        .history-table .status.wait { background: var(--warning); }
+        .history-table .status.submitted { background: var(--info); }
+        .history-table .status.checked { background: var(--success); }
+
+       
+        footer {
+            background: var(--primary);
+            color: var(--white);
+            text-align: center;
+            padding: 30px;
+            font-size: 18px;
+            margin-top: 50px;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+        }
+
+        
+        @media (max-width: 1200px) {
+            .banner { height: 450px; }
+            .banner h1 { font-size: 48px; }
+            .task-box { grid-template-columns: repeat(2, 1fr); }
+            .history-table { font-size: 14px; }
+            .task-card { min-height: 800px; }
+        }
+        @media (max-width: 768px) {
+            .banner { height: 400px; padding: 20px; }
+            .banner h1 { font-size: 36px; }
+            .banner p { font-size: 18px; }
+            .task-box { grid-template-columns: 1fr; }
+            .history-table { display: block; overflow-x: auto; }
+            header { padding: 15px 20px; }
+            nav a { margin-left: 15px; font-size: 16px; }
+            .qrcode-img { width: 120px; height: 120px; }
+            .task-card { min-height: auto; }
+        }
+    </style>
+</head>
+<body>
+
+
+<header>
+    <div class="header-box">
+        <div class="logo">🌱 植物园</div>
+        <nav>
+            <a href="index.html">首页</a>
+            <a>学习资源</a>
+            <a>在线答题</a>
+            <a href="作业提交.html" class="active">作业提交</a>
+			<a href="登陆注册.html">登陆/注册</a>
+        </nav>
+    </div>
+</header>
+
+
+<div class="banner">
+    <div class="banner-content">
+        <h1>作业提交中心</h1>
+        <p>上传观察报告、创意作品，老师在线点评指导，轻松完成植物探究任务</p>
+        <a href="#submit-form" class="btn">立即提交</a>
+    </div>
+</div>
+
+
+<div class="container task-section">
+    <h2 class="title">待提交作业</h2>
+    <div class="task-box">
+       
+        <div class="task-card">
+            <span class="status-tag wait">待提交</span>
+            <h3>课后任务：估算小区树木蒸腾水量</h3>
+            <div class="deadline">截止时间：2026-04-15 23:59</div>
+            <p>估算你家小区一棵树，一天蒸腾的水够你家用几天？</p>
+            <p style="font-weight:500;color:var(--primary-dark);">提交要求：</p>
+            <ul class="steps">
+                <li>1. 记录小区树木品种、胸径等基础信息</li>
+                <li>2. 查阅该树种蒸腾量参考数据</li>
+                <li>3. 计算单棵树日蒸腾水量</li>
+                <li>4. 对比自家日均用水量，得出结论</li>
+                <li>5. 提交计算过程+结论（文字/表格/图片均可）</li>
+            </ul>
+            
+            <div class="qrcode-box">
+                <p>计算参考模板</p>
+                <img src="images/计算参考模板.png" alt="估算方法参考模板" class="qrcode-img" 
+                     onerror="this.innerHTML='请替换src为模板图片链接'">
+            </div>
+            <a href="#submit-form" class="btn">去提交</a>
+        </div>
+
+        
+        <div class="task-card">
+            <span class="status-tag wait">待提交</span>
+            <h3>植物蒸腾实验短视频制作</h3>
+            <div class="deadline">截止时间：2026-04-20 23:59</div>
+            <p>光说不练假把式！今天的侦探作业</p>
+            <p style="font-weight:500;color:var(--primary-dark);">实验步骤：</p>
+            <ul class="steps">
+                <li>1. 找两盆相同绿植</li>
+                <li>2. 一盆套透明塑料袋，另一盆叶片涂满凡士林后再套袋</li>
+                <li>3. 阳光下放2小时</li>
+                <li>4. 观察水珠量，拍照上传</li>
+            </ul>
+            <p style="font-weight:500;color:var(--primary-dark);margin-top:10px;">提交要求：</p>
+            <p>用手机拍下实验过程，配AI生成的解说，做成30秒短视频！</p>
+            
+            
+            <div class="qrcode-box">
+                <p>实验记录卡模板</p>
+                
+                <img src="images/二维码.png" alt="实验记录卡模板二维码" class="qrcode-img" 
+                     onerror="this.innerHTML='请替换src为二维码/照片链接'">
+            </div>
+
+            <a href="#submit-form" class="btn">去提交</a>
+        </div>
+    </div>
+</div>
+
+
+<div class="container" id="submit-form">
+    <div class="submit-section">
+        <h2 class="title">作业提交</h2>
+        <form class="submit-form">
+            <div class="form-group">
+                <label for="homework">选择作业</label>
+                <select id="homework" name="homework" required>
+                    <option value="">请选择要提交的作业</option>
+                    <option value="1">课后任务：估算小区树木蒸腾水量</option>
+                    <option value="2">植物蒸腾实验短视频制作</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="file">上传作业文件</label>
+                <input type="file" id="file" name="file" accept=".pdf,.doc,.docx,.jpg,.png,.mp4,.mov,.avi" required>
+                <span class="file-hint">支持格式：PDF、Word、图片、视频，单个文件不超过500MB</span>
+            </div>
+            <div class="form-group">
+                <label for="remark">补充说明（选填）</label>
+                <textarea id="remark" name="remark" placeholder="请填写作业相关说明、实验心得或疑问..."></textarea>
+            </div>
+            <button type="submit" class="btn">提交作业</button>
+        </form>
+    </div>
+</div>
+
+
+<div class="container history-section" id="history">
+    <h2 class="title">历史提交记录</h2>
+    <table class="history-table">
+        <thead>
+            <tr>
+                <th>作业名称</th>
+                <th>提交时间</th>
+                <th>状态</th>
+                <th>老师评语</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>植物根系结构观察实验</td>
+                <td>2026-04-03 15:30</td>
+                <td><span class="status checked">已批改</span></td>
+                <td>实验记录完整，示意图绘制清晰，继续加油！</td>
+                <td><a href="#" class="btn" style="padding:8px 20px;font-size:14px;">查看详情</a></td>
+            </tr>
+            <tr>
+                <td>植物光合作用小作文</td>
+                <td>2026-03-28 10:15</td>
+                <td><span class="status checked">已批改</span></td>
+                <td>作文逻辑清晰，非常优秀！</td>
+                <td><a href="#" class="btn" style="padding:8px 20px;font-size:14px;">查看详情</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<footer>
+    <p>© 2026 植物园 · 微课拓展学习平台</p>
+</footer>
+
+
+<script>
+   
+    document.querySelector('.submit-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('✅ 作业提交成功！老师会尽快批改，你可以在历史记录中查看状态~');
+        this.reset();
+    });
+
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

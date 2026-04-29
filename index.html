@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>植物园 · 微课拓展学习平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Comic Sans MS', sans-serif;
+        }
+
+        :root {
+            --primary: #7CB342;          
+            --primary-dark: #2C5F2D;     
+            --light: #FFF8E1;             
+            --yellow: #FFC107;            
+            --yellow-light: #FFECB3;      
+            --text: #424242;             
+            --white: #FFFFFF;             
+            --light-green: #E8F5E9;       
+            --shadow: rgba(124, 179, 66, 0.15);
+            --success: #4CAF50;           
+            --warning: #FF9800;          
+            --info: #2196F3;              
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        header {
+            background: var(--primary);
+            padding: 18px 50px;
+            color: var(--white);
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .header-box {
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        nav a {
+            color: var(--white);
+            margin-left: 35px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        nav a.active {
+            color: var(--yellow);
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: var(--yellow);
+            text-decoration: underline;
+        }
+
+        .banner {
+            background-image: url("images/大背景.jpg");
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
+            height: 650px;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border-radius: 0 0 40px 40px;
+            overflow: hidden;
+        }
+        .banner::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(to top, var(--light), transparent);
+        }
+        .banner-content {
+            max-width: 800px;
+            text-align: center;
+            padding: 0;
+            background: none;
+            z-index: 2;
+        }
+        .banner h1 {
+            font-size: 72px;
+            margin-bottom: 25px;
+            color: #1B5E20;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.7);
+            letter-spacing: 2px;
+            font-weight: 800;
+            font-style: normal;
+        }
+        .banner p {
+            font-size: 31px;
+            margin-bottom: 35px;
+            color: #2C5F2D;
+            text-shadow: 1px 1px 3px rgba(255,255,255,0.7);
+            line-height: 1.8;
+            font-weight: 500;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--yellow);
+            color: var(--text);
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+            background: #FFA000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 25px;
+        }
+        .title {
+            text-align: center;
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            font-weight: bold;
+        }
+        .title::before, .title::after {
+            content: "🌿";
+            font-size: 28px;
+            opacity: 0.8;
+        }
+
+        /* 课程网格布局样式 */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .course-card {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 25px;
+            box-shadow: 0 8px 25px var(--shadow);
+            border: 3px solid var(--primary);
+            padding: 30px 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            /* 垂直布局，保证顺序 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            border-color: var(--yellow);
+        }
+        /* 课程标题样式 */
+        .course-card h3 {
+            font-size: 24px;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .course-text {
+            margin-bottom: 20px;
+            font-size: 17px;
+            line-height: 1.8;
+        }
+        .course-img {
+            width: 100%;
+            height: 280px;
+            border-radius: 20px;
+            margin: 0 auto 25px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: var(--white);
+            box-shadow: inset 0 0 30px rgba(124, 179, 66, 0.1);
+        }
+        /* 课程图片 */
+        .course-img.transpiration { background-image: url("images/主题.png"); }
+        .course-img.photosynthesis { background-image: url("images/光合作用.png"); }
+        .course-img.respiration { background-image: url("images/呼吸作用.png"); }
+        .course-img.cell { background-image: url("images/细胞.png"); }
+
+        .resource-box {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .resource-box .card {
+            background: var(--white);
+            padding: 45px 30px;
+            border-radius: 25px;
+            box-shadow: 0 8px 25px var(--shadow);
+            border: 3px solid var(--primary);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            background-image: url("images/学习资源底纹.png");
+            background-size: 90%;
+            background-position: bottom right;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;     
+            text-align: center;      
+            min-height: 380px;       
+        }
+        .resource-box .card:nth-child(1) { background-image: url("images/资源课件.png"); }
+        .resource-box .card:nth-child(2) { background-image: url("images/资源视频.png"); }
+        .resource-box .card:nth-child(3) { background-image: url("images/资源资料.png"); }
+        .resource-box .card:nth-child(4) { background-image: url("images/资源工具.png"); }
+        
+        .resource-box .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+            border-color: var(--yellow);
+        }
+        .card .icon {
+            font-size: 55px;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .card h3 {
+            font-size: 26px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .card p {
+            font-size: 20px;
+            margin-bottom: 25px;
+            line-height: 1.7;
+            color: var(--text);
+            max-width: 90%; 
+        }
+        .card .btn {
+            padding: 10px 30px;
+            font-size: 20px;
+        }
+
+        .interaction {
+            background: var(--light-green);
+            padding: 90px 0;
+            margin-top: 60px;
+            border-top: 6px solid var(--primary);
+            border-radius: 40px 40px 0 0;
+            position: relative;
+        }
+        .interaction::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("images/互动底纹.png");
+            background-size: 200px;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.05;
+            z-index: 1;
+        }
+        .inter-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1300px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        .inter-item {
+            background: var(--white);
+            padding: 45px 30px;
+            border-radius: 25px;
+            box-shadow: 0 8px 25px var(--shadow);
+            border: 2px dashed var(--primary);
+            transition: all 0.3s ease;
+            text-align: center;
+            height: 100%;
+            background-image: url("images/互动底纹单张.png");
+            background-size: 80%;
+            background-position: bottom center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 380px;
+        }
+        .inter-item:hover {
+            transform: scale(1.04);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            border-style: solid;
+            border-color: var(--yellow);
+        }
+        .inter-icon {
+            font-size: 75px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+        .inter-content h3 {
+            font-size: 26px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .inter-content p {
+            font-size: 20px;
+            margin-bottom: 25px;
+            line-height: 1.7;
+            color: var(--text);
+            max-width: 90%;
+        }
+        .inter-content .btn {
+            padding: 10px 30px;
+            font-size: 20px;
+        }
+
+        /* 评论互动板块样式 */
+        .comment-section {
+            max-width: 1000px;
+            margin: 60px auto 0;
+            padding: 0 25px;
+        }
+        .comment-card {
+            background: var(--white);
+            padding: 40px 35px;
+            border-radius: 25px;
+            box-shadow: 0 8px 25px var(--shadow);
+            border: 2px dashed var(--primary);
+        }
+        .comment-input-box {
+            margin-bottom: 40px;
+        }
+        .comment-input-box h4 {
+            font-size: 22px;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .comment-input {
+            width: 100%;
+            height: 120px;
+            padding: 18px 20px;
+            font-size: 18px;
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            resize: none;
+            outline: none;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        .comment-input:focus {
+            border-color: var(--yellow);
+            box-shadow: 0 0 8px var(--yellow-light);
+        }
+        .comment-user-name {
+            width: 300px;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+        .comment-submit {
+            display: inline-block;
+            padding: 10px 30px;
+            font-size: 18px;
+        }
+        .comment-list {
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        .comment-item {
+            background: var(--light-green);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .comment-username {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+        .comment-time {
+            font-size: 14px;
+            color: #757575;
+        }
+        .comment-content {
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .teacher-reply {
+            background: var(--white);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--warning);
+            margin-top: 10px;
+        }
+        .teacher-reply-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--warning);
+            margin-bottom: 5px;
+        }
+        .teacher-reply-content {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        /* 滚动条美化 */
+        .comment-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        .comment-list::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+        .comment-list::-webkit-scrollbar-track {
+            background: var(--light-green);
+            border-radius: 4px;
+        }
+
+        footer {
+            background: var(--primary);
+            color: var(--white);
+            text-align: center;
+            padding: 30px;
+            font-size: 18px;
+            margin-top: 0;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 1200px) {
+            .banner { height: 450px; }
+            .banner h1 { font-size: 48px; }
+            .banner p { font-size: 24px; }
+            .resource-box { grid-template-columns: repeat(2, 1fr); } 
+            .inter-box { grid-template-columns: repeat(2, 1fr); }
+            .inter-item:nth-child(3) { grid-column: 1 / 3; max-width: 450px; margin: 0 auto; }
+        }
+        @media (max-width: 768px) {
+            .banner { height: 400px; padding: 20px; }
+            .banner h1 { font-size: 36px; }
+            .banner p { font-size: 18px; }
+            .resource-box { grid-template-columns: 1fr; } 
+            .inter-box { grid-template-columns: 1fr; }
+            .inter-item:nth-child(3) { grid-column: 1; max-width: 100%; }
+            header { padding: 15px 20px; }
+            nav a { margin-left: 15px; font-size: 16px; }
+            .comment-user-name { width: 100%; }
+            .course-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-box">
+        <div class="logo">🌱 植物园</div>
+        <nav>
+            <a href="Untitled-1.html" class="active">首页</a>
+            <a>学习资源</a>
+            <a>在线答题</a>
+            <a href="作业提交.html">作业提交</a>
+			<a href="登录注册.html">登录/注册</a>
+        </nav>
+    </div>
+</header>
+
+<div class="banner">
+    <div class="banner-content">
+        <h1>微课拓展学习平台</h1>
+        <p>课程资料、在线答题、作业提交一站式学习，轻松完成植物探究任务</p>
+        <a href="#" class="btn">进入学习</a>
+    </div>
+</div>
+
+<div class="container">
+    <h2 class="title">课程介绍</h2>
+    <!-- 2×2课程网格 结构：标题→文字→图片→按钮 -->
+    <div class="course-grid">
+        <!-- 蒸腾作用 -->
+        <div class="course-card">
+            <h3>植物蒸腾作用</h3>
+            <div class="course-text">
+                <p>本微课以植物蒸腾作用为核心，带你了解植物的“隐形水泵”奥秘。</p>
+            </div>
+            <div class="course-img transpiration"></div>
+            <a href="#" class="btn">查看课程</a>
+        </div>
+        <!-- 光合作用 -->
+        <div class="course-card">
+            <h3>植物光合作用</h3>
+            <div class="course-text">
+                <p>探索植物光合作用的神奇过程，揭秘“大自然的能量工厂”。</p>
+            </div>
+            <div class="course-img photosynthesis"></div>
+            <a href="#" class="btn">查看课程</a>
+        </div>
+        <!-- 呼吸作用 -->
+        <div class="course-card">
+            <h3>植物呼吸作用</h3>
+            <div class="course-text">
+                <p>了解植物呼吸作用的原理，认识植物生命活动的能量来源。</p>
+            </div>
+            <div class="course-img respiration"></div>
+            <a href="#" class="btn">查看课程</a>
+        </div>
+        <!-- 细胞结构 -->
+        <div class="course-card">
+            <h3>植物细胞结构</h3>
+            <div class="course-text">
+                <p>走进植物细胞的微观世界，认识植物生命的基本单位。</p>
+            </div>
+            <div class="course-img cell"></div>
+            <a href="#" class="btn">查看课程</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <h2 class="title">学习资源</h2>
+    <div class="resource-box">
+        <div class="card">
+            <div class="icon">📚</div>
+            <h3>微课课件</h3>
+            <p>完整课件、学习单下载，辅助课堂学习与课后复习</p>
+            <a href="微课课件.html" class="btn">立即下载</a>
+        </div>
+        <div class="card">
+            <div class="icon">🎥</div>
+            <h3>微课视频</h3>
+            <p>高清动画微课视频，随时随地反复观看学习</p>
+            <a href="微课视频.html" class="btn">立即观看</a>
+        </div>
+        <div class="card">
+            <div class="icon">🔬</div>
+            <h3>拓展资料</h3>
+            <p>植物科普文章、实验指南，拓展知识边界</p>
+            <a href="拓展资料.html" class="btn">开始学习</a>
+        </div>
+        <div class="card">
+            <div class="icon">🎨</div>
+            <h3>学习工具</h3>
+            <p>观察记录表、绘画模板，助力探究式学习</p>
+            <a href="#" class="btn">获取工具</a>
+        </div>
+    </div>
+</div>
+
+<div class="interaction">
+    <div class="container">
+        <h2 class="title">学习互动</h2>
+        <div class="inter-box">
+            <div class="inter-item">
+                <div class="inter-icon">🧩</div>
+                <div class="inter-content">
+                    <h3>在线答题</h3>
+                    <p>完成课后趣味答题，检验学习成果</p>
+                    <a href="趣味课后习题.html" class="btn">开始答题</a>
+                </div>
+            </div>
+            
+            <div class="inter-item">
+                <div class="inter-icon">📤</div>
+                <div class="inter-content">
+                    <h3>作业提交</h3>
+                    <p>上传观察报告、创意作品，老师在线点评指导</p>
+                    <a href="作业提交.html" class="btn">提交作业</a>
+                </div>
+            </div>
+            
+            <div class="inter-item">
+                <div class="inter-icon">🏆</div>
+                <div class="inter-content">
+                    <h3>学习勋章</h3>
+                    <p>完成答题和作业，解锁专属植物勋章</p>
+                    <a href="#" class="btn">查看勋章</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 评论互动板块 -->
+        <div class="comment-section">
+            <div class="comment-card">
+                <h2 class="title" style="margin-bottom: 20px; font-size: 28px;">💬 评论互动区</h2>
+                <!-- 评论输入框 -->
+                <div class="comment-input-box">
+                    <h4>我要提问/评论</h4>
+                    <input type="text" class="comment-user-name" id="commentUserName" placeholder="请输入你的昵称">
+                    <textarea class="comment-input" id="commentContent" placeholder="请输入你的问题或评论..."></textarea>
+                    <button class="btn comment-submit" onclick="submitComment()">提交评论</button>
+                </div>
+
+                <!-- 评论列表 -->
+                <div class="comment-list" id="commentList">
+                    <!-- 示例评论1 -->
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <span class="comment-username">小欣</span>
+                            <span class="comment-time">2026-04-28 10:20</span>
+                        </div>
+                        <div class="comment-content">
+                            老师，植物的光合作用需要哪些条件呀？我做实验的时候没太弄明白。
+                        </div>
+                        <div class="teacher-reply">
+                            <div class="teacher-reply-title">老师回复：</div>
+                            <div class="teacher-reply-content">
+                                小欣你好～光合作用需要三个核心条件：光照、二氧化碳和水，还要有叶绿体哦！可以再看看微课里的动画演示，很直观的～
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 示例评论2 -->
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <span class="comment-username">小树</span>
+                            <span class="comment-time">2026-04-27 16:45</span>
+                        </div>
+                        <div class="comment-content">
+                            我观察到绿豆芽在黑暗处生长是黄色的，在光照下是绿色的，这是为什么呀？
+                        </div>
+                        <div class="teacher-reply">
+                            <div class="teacher-reply-title">老师回复：</div>
+                            <div class="teacher-reply-content">
+                                小树观察得非常仔细！因为光照会让植物产生叶绿素，叶绿素是绿色的，黑暗处没有叶绿素，所以豆芽是黄色的～这就是植物的向光性哦！
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 植物园 · 微课拓展学习平台</p>
+</footer>
+
+<!-- 评论功能JS -->
+<script>
+    // 提交评论功能
+    function submitComment() {
+        // 获取输入的昵称和评论内容
+        const userName = document.getElementById('commentUserName').value.trim();
+        const content = document.getElementById('commentContent').value.trim();
+        
+        // 验证输入
+        if (!userName) {
+            alert('请输入你的昵称！');
+            return;
+        }
+        if (!content) {
+            alert('请输入评论内容！');
+            return;
+        }
+
+        // 获取当前时间
+        const now = new Date();
+        const timeStr = now.getFullYear() + '-' + 
+                        (now.getMonth() + 1).toString().padStart(2, '0') + '-' + 
+                        now.getDate().toString().padStart(2, '0') + ' ' + 
+                        now.getHours().toString().padStart(2, '0') + ':' + 
+                        now.getMinutes().toString().padStart(2, '0');
+
+        // 创建新评论元素
+        const commentItem = document.createElement('div');
+        commentItem.className = 'comment-item';
+        commentItem.innerHTML = `
+            <div class="comment-header">
+                <span class="comment-username">${userName}</span>
+                <span class="comment-time">${timeStr}</span>
+            </div>
+            <div class="comment-content">
+                ${content}
+            </div>
+            <div class="teacher-reply" style="display:none;">
+                <div class="teacher-reply-title">老师回复：</div>
+                <div class="teacher-reply-content" id="reply-${Date.now()}">
+                    老师会尽快回复你的问题哦～
+                </div>
+            </div>
+        `;
+
+        // 添加到评论列表顶部
+        const commentList = document.getElementById('commentList');
+        commentList.insertBefore(commentItem, commentList.firstChild);
+
+        // 清空输入框
+        document.getElementById('commentUserName').value = '';
+        document.getElementById('commentContent').value = '';
+
+        // 提示提交成功
+        alert('评论提交成功！老师会尽快回复你～');
+    }
+
+    // （老师端功能）回复评论 - 可在控制台调用，或后续加老师登录后显示回复按钮
+    function replyComment(replyId, content) {
+        const replyElement = document.getElementById(replyId);
+        if (replyElement) {
+            replyElement.textContent = content;
+            replyElement.parentElement.style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>

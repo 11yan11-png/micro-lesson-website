@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <title>在线答题 - 植物园 · 微课拓展学习平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Comic Sans MS', sans-serif;
+        }
+
+        :root {
+            --primary: #7CB342;          
+            --primary-dark: #2C5F2D;    
+            --light: #FFF8E1;            
+            --yellow: #FFC107;          
+            --text: #424242;             
+            --white: #FFFFFF;           
+            --shadow: rgba(124, 179, 66, 0.15);
+            --correct: #4CAF50;         /* 正确答案色 */
+            --wrong: #F44336;           /* 错误答案色 */
+            --gray: #9E9E9E;            /* 未答题色 */
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.8;
+            padding: 20px 0;
+            margin-bottom: 80px; /* 预留页脚空间 */
+        }
+
+        /* 头部样式 */
+        header {
+            background: var(--primary);
+            padding: 15px 50px;
+            color: var(--white);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .header-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .back-btn {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back-btn:hover {
+            color: var(--yellow);
+            text-decoration: underline;
+        }
+
+        /* 容器样式 */
+        .resource-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        /* 主标题 */
+        .main-title {
+            text-align: center;
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+
+        /* 通用卡片样式 */
+        .card {
+            background: var(--white);
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px var(--shadow);
+            border: 2px solid var(--primary);
+            margin-bottom: 35px;
+        }
+        .card:hover {
+            border-color: var(--yellow);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+
+        /* PDF答题卡片样式 */
+        .pdf-card-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .card-icon {
+            font-size: 60px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        .pdf-card-header h4 {
+            font-size: 28px;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+        .pdf-card-header p {
+            font-size: 18px;
+            color: #666;
+            max-width: 80%;
+            margin: 0 auto;
+        }
+
+        .file-preview {
+            width: 100%;
+            height: 750px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: #fff;
+        }
+
+        /* 答题卡片样式 */
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light);
+        }
+        .quiz-title {
+            font-size: 24px;
+            color: var(--primary-dark);
+            font-weight: bold;
+        }
+        .quiz-score {
+            font-size: 18px;
+            color: var(--primary);
+            font-weight: bold;
+            background: var(--light);
+            padding: 8px 20px;
+            border-radius: 20px;
+        }
+
+        /* 题目通用样式 */
+        .question-item {
+            margin-bottom: 35px;
+            text-align: left;
+        }
+        .question-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .question-index {
+            background: var(--primary);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        /* 选择题样式 */
+        .option-list {
+            list-style: none;
+            margin-left: 38px;
+        }
+        .option-item {
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+        .option-input {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+        /* 答题状态样式 */
+        .option-item.correct {
+            color: var(--correct);
+            font-weight: bold;
+        }
+        .option-item.wrong {
+            color: var(--wrong);
+        }
+        .option-item.correct::after {
+            content: " ✔ 正确答案";
+            font-size: 14px;
+            margin-left: 8px;
+        }
+        .option-item.wrong::after {
+            content: " ✖ 错误";
+            font-size: 14px;
+            margin-left: 8px;
+        }
+
+        /* 简答题样式 - 核心修复：统一PC和移动端样式 */
+        .answer-textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            resize: vertical;
+            margin: 10px 0 15px 0; /* 移除左侧38px边距，避免错位 */
+            outline: none;
+            box-sizing: border-box; /* 确保内边距不影响宽度 */
+        }
+        .answer-textarea:focus {
+            border-color: var(--yellow);
+            box-shadow: 0 0 8px rgba(255, 193, 7, 0.3);
+        }
+
+        /* 解析样式 */
+        .analysis-box {
+            margin: 15px 0 15px 0; /* 同步移除左侧38px边距，保持对齐 */
+            padding: 15px;
+            background: var(--light);
+            border-radius: 10px;
+            display: none;
+        }
+        .analysis-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+        .analysis-content {
+            font-size: 16px;
+            color: var(--text);
+        }
+        .analysis-box.show {
+            display: block;
+        }
+
+        /* 按钮样式 */
+        .btn-box {
+            text-align: center;
+            margin: 25px 0;
+        }
+        .quiz-btn {
+            background: var(--yellow);
+            color: #333;
+            padding: 15px 45px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 22px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            border: none;
+            cursor: pointer;
+            margin: 0 10px;
+            display: inline-block;
+        }
+        .quiz-btn:hover {
+            background: #FFA000;
+            transform: scale(1.08);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+        .quiz-btn.reset {
+            background: var(--gray);
+            color: white;
+        }
+        .quiz-btn.reset:hover {
+            background: #757575;
+        }
+
+        /* 评分结果 */
+        .result-box {
+            text-align: center;
+            padding: 20px;
+            background: var(--light);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: none;
+        }
+        .result-box.show {
+            display: block;
+        }
+        .result-score {
+            font-size: 36px;
+            color: var(--primary-dark);
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .result-text {
+            font-size: 20px;
+            color: var(--text);
+        }
+
+        /* 页脚样式（和首页一致） */
+        footer {
+            background: var(--primary);
+            color: var(--white);
+            text-align: center;
+            padding: 30px;
+            font-size: 18px;
+            margin-top: 60px;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        /* 移动端适配 - 修复核心：移除固定宽度和负边距，自适应 */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .file-preview { height: 450px; }
+            .pdf-card-header h4 { font-size: 24px; }
+            .quiz-header { flex-direction: column; gap: 15px; align-items: flex-start; }
+            .question-title { font-size: 18px; }
+            .option-item { font-size: 16px; }
+            /* 修复：移动端输入框自适应，移除错误的固定宽度和负边距 */
+            .answer-textarea {
+                height: 120px;
+                font-size: 16px;
+                width: 100%; /* 强制占满容器宽度 */
+                margin-left: 0; /* 移除负边距 */
+            }
+            .quiz-btn { padding: 12px 30px; font-size: 18px; margin: 5px 0; display: block; width: 100%; }
+            .result-score { font-size: 28px; }
+            footer { padding: 20px; font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-box">
+        <div class="logo">🌱 植物园</div>
+        <a href="index.html" class="back-btn">← 返回首页</a>
+    </div>
+</header>
+
+<div class="resource-container">
+    <h2 class="main-title">在线答题中心</h2>
+
+    <!-- 保留原有PDF答题模块 -->
+    <div class="card">
+        <div class="pdf-card-header">
+            <div class="card-icon">🧩</div>
+            <h4>趣味课后习题</h4>
+            <p>完成课后趣味答题，检验学习成果</p>
+        </div>
+        <div class="btn-box">
+            <a href="趣味课后习题.pdf" class="quiz-btn" download>开始答题</a>
+        </div>
+        <iframe 
+            class="file-preview"
+            src="趣味课后习题.pdf"  
+            type="application/pdf"
+            scrolling="auto">
+            你的浏览器不支持预览文件，请点击上方「开始答题」按钮下载查看
+        </iframe>
+    </div>
+
+    <!-- 新增交互答题模块 -->
+    <div class="card">
+        <!-- 答题头部 -->
+        <div class="quiz-header">
+            <div class="quiz-title">植物蒸腾作用专项测试</div>
+            <div class="quiz-score">总分：100分</div>
+        </div>
+
+        <!-- 题目区域 -->
+        <div class="quiz-content">
+            <!-- 选择题1 -->
+            <div class="question-item">
+                <div class="question-title">
+                    <span class="question-index">1</span>
+                    <span>植物蒸腾作用的主要器官是（）【20分】</span>
+                </div>
+                <ul class="option-list" id="q1-options">
+                    <li class="option-item">
+                        <input type="radio" name="q1" class="option-input" value="A">A. 根
+                    </li>
+                    <li class="option-item">
+                        <input type="radio" name="q1" class="option-input" value="B">B. 茎
+                    </li>
+                    <li class="option-item">
+                        <input type="radio" name="q1" class="option-input" value="C">C. 叶
+                    </li>
+                    <li class="option-item">
+                        <input type="radio" name="q1" class="option-input" value="D">D. 花
+                    </li>
+                </ul>
+                <div class="analysis-box" id="q1-analysis">
+                    <div class="analysis-title">答案解析：</div>
+                    <div class="analysis-content">
+                        正确答案是C。植物的叶片上有大量气孔，是蒸腾作用散失水分的主要部位，根负责吸收水分，茎负责运输水分，花主要负责繁殖。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 选择题2 -->
+            <div class="question-item">
+                <div class="question-title">
+                    <span class="question-index">2</span>
+                    <span>下列哪项不是蒸腾作用的意义（）【20分】</span>
+                </div>
+                <ul class="option-list" id="q2-options">
+                    <li class="option-item">
+                        <input type="radio" name="q2" class="option-input" value="A">A. 降低叶片温度
+                    </li>
+                    <li class="option-item">
+                        <input type="radio" name="q2" class="option-input" value="B">B. 促进水分运输
+                    </li>
+                    <li class="option-item">
+                        <input type="radio" name="q2" class="option-input" value="C">C. 制造有机物
+                    </li>
+                    <li class="option-item">
+                        <input type="radio" name="q2" class="option-input" value="D">D. 促进无机盐运输
+                    </li>
+                </ul>
+                <div class="analysis-box" id="q2-analysis">
+                    <div class="analysis-title">答案解析：</div>
+                    <div class="analysis-content">
+                        正确答案是C。制造有机物是光合作用的功能，蒸腾作用的意义包括：降低叶片温度避免灼伤、拉动水分和无机盐在植物体内的运输、增加大气湿度。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 简答题1 -->
+            <div class="question-item">
+                <div class="question-title">
+                    <span class="question-index">3</span>
+                    <span>简述植物蒸腾作用的“隐形水泵”原理？【30分】</span>
+                </div>
+                <textarea class="answer-textarea" id="q3-answer" placeholder="请输入你的答案..."></textarea>
+                <div class="analysis-box" id="q3-analysis">
+                    <div class="analysis-title">参考答案：</div>
+                    <div class="analysis-content">
+                        植物叶片通过气孔散失水分，导致叶片细胞液浓度升高，从而从叶脉中的导管吸水，这种吸水力沿着导管向上传递，最终拉动根部从土壤中吸收水分，形成类似“水泵”的动力，这就是蒸腾拉力，也是蒸腾作用被称为“隐形水泵”的原因。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 简答题2 -->
+            <div class="question-item">
+                <div class="question-title">
+                    <span class="question-index">4</span>
+                    <span>举例说明蒸腾作用与“双碳”战略的关系？【30分】</span>
+                </div>
+                <textarea class="answer-textarea" id="q4-answer" placeholder="请输入你的答案..."></textarea>
+                <div class="analysis-box" id="q4-analysis">
+                    <div class="analysis-title">参考答案：</div>
+                    <div class="analysis-content">
+                        1. 蒸腾作用促进植物生长，植物通过光合作用吸收二氧化碳并固定碳（碳汇），助力“碳中和”；2. 森林的蒸腾作用能调节气候，减少温室效应带来的温度升高；3. 健康的植物蒸腾作用越强，碳汇能力越强，对降低大气中二氧化碳浓度有重要作用。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 评分结果 -->
+        <div class="result-box" id="result-box">
+            <h3>答题完成！你的得分是</h3>
+            <div class="result-score" id="final-score">0</div>
+            <div class="result-text" id="result-text">继续加油哦！</div>
+        </div>
+
+        <!-- 按钮区域 -->
+        <div class="btn-box">
+            <button class="quiz-btn" onclick="submitQuiz()">提交答题</button>
+            <button class="quiz-btn reset" onclick="resetQuiz()">重新答题</button>
+        </div>
+    </div>
+</div>
+
+<!-- 页脚 -->
+<footer>
+    <p>© 2026 植物园 · 微课拓展学习平台</p>
+</footer>
+
+<script>
+    // 正确答案配置
+    const correctAnswers = {
+        q1: "C",          // 选择题1正确答案
+        q2: "C",          // 选择题2正确答案
+        q3: "参考解析",   // 简答题3（仅展示参考）
+        q4: "参考解析"    // 简答题4（仅展示参考）
+    };
+
+    // 提交答题并评分
+    function submitQuiz() {
+        let score = 0;
+        const resultBox = document.getElementById("result-box");
+        const finalScore = document.getElementById("final-score");
+        const resultText = document.getElementById("result-text");
+
+        // 判分选择题1
+        const q1Selected = document.querySelector('input[name="q1"]:checked');
+        const q1Options = document.getElementById("q1-options").children;
+        if (q1Selected) {
+            // 标记正确/错误选项
+            for (let i = 0; i < q1Options.length; i++) {
+                const option = q1Options[i];
+                const value = option.querySelector(".option-input").value;
+                if (value === correctAnswers.q1) {
+                    option.classList.add("correct");
+                    score += 20; // 加20分
+                } else if (value === q1Selected.value) {
+                    option.classList.add("wrong");
+                }
+            }
+        }
+        document.getElementById("q1-analysis").classList.add("show");
+
+        // 判分选择题2
+        const q2Selected = document.querySelector('input[name="q2"]:checked');
+        const q2Options = document.getElementById("q2-options").children;
+        if (q2Selected) {
+            for (let i = 0; i < q2Options.length; i++) {
+                const option = q2Options[i];
+                const value = option.querySelector(".option-input").value;
+                if (value === correctAnswers.q2) {
+                    option.classList.add("correct");
+                    score += 20; // 加20分
+                } else if (value === q2Selected.value) {
+                    option.classList.add("wrong");
+                }
+            }
+        }
+        document.getElementById("q2-analysis").classList.add("show");
+
+        // 展示简答题解析（主观题仅展示参考，不自动判分）
+        document.getElementById("q3-analysis").classList.add("show");
+        document.getElementById("q4-analysis").classList.add("show");
+
+        // 显示总分和评语
+        finalScore.textContent = score + "分";
+        if (score >= 90) {
+            resultText.textContent = "优秀！你对蒸腾作用的知识掌握得非常好～";
+        } else if (score >= 70) {
+            resultText.textContent = "良好！继续巩固细节会更棒～";
+        } else if (score >= 60) {
+            resultText.textContent = "及格啦！多复习重点知识哦～";
+        } else {
+            resultText.textContent = "需要加油！建议再看看微课和拓展资料～";
+        }
+        resultBox.classList.add("show");
+
+        // 禁用单选框和文本框
+        document.querySelectorAll(".option-input").forEach(input => {
+            input.disabled = true;
+        });
+        document.querySelectorAll(".answer-textarea").forEach(textarea => {
+            textarea.disabled = true;
+        });
+    }
+
+    // 重新答题
+    function resetQuiz() {
+        // 重置选择题
+        document.querySelectorAll(".option-input").forEach(input => {
+            input.checked = false;
+            input.disabled = false;
+            input.parentElement.classList.remove("correct", "wrong");
+        });
+
+        // 重置简答题
+        document.querySelectorAll(".answer-textarea").forEach(textarea => {
+            textarea.value = "";
+            textarea.disabled = false;
+        });
+
+        // 隐藏解析和结果
+        document.querySelectorAll(".analysis-box").forEach(box => {
+            box.classList.remove("show");
+        });
+        document.getElementById("result-box").classList.remove("show");
+    }
+</script>
+
+</body>
+</html>

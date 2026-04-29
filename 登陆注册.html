@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <title>登录 / 注册 - 植物园微课平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Comic Sans MS', sans-serif;
+        }
+
+        /* 沿用首页配色变量，保持风格统一 */
+        :root {
+            --primary: #7CB342;
+            --primary-dark: #2C5F2D;
+            --light: #FFF8E1;
+            --yellow: #FFC107;
+            --yellow-light: #FFECB3;
+            --text: #424242;
+            --white: #FFFFFF;
+            --light-green: #E8F5E9;
+            --shadow: rgba(124, 179, 66, 0.15);
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        /* 头部导航（和首页完全一致） */
+        header {
+            background: var(--primary);
+            padding: 18px 50px;
+            color: var(--white);
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .header-box {
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        nav a {
+            color: var(--white);
+            margin-left: 35px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        nav a.active {
+            color: var(--yellow);
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: var(--yellow);
+            text-decoration: underline;
+        }
+
+        /* 登录注册主体容器 */
+        .login-wrapper {
+            min-height: calc(100vh - 220px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        /* 卡片样式 */
+        .login-card {
+            background: var(--white);
+            width: 100%;
+            max-width: 500px;
+            padding: 50px 40px;
+            border-radius: 25px;
+            box-shadow: 0 8px 25px var(--shadow);
+            border: 3px solid var(--primary);
+        }
+
+        /* 选项卡切换 */
+        .tab-group {
+            display: flex;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            background: var(--light-green);
+            padding: 5px;
+        }
+        .tab {
+            flex: 1;
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-dark);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* 表单样式 */
+        .form-box {
+            display: none;
+        }
+        .form-box.show {
+            display: block;
+        }
+        .form-title {
+            text-align: center;
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+        .input-group {
+            margin-bottom: 25px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-weight: 500;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 18px;
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .input-group input:focus {
+            border-color: var(--yellow);
+            box-shadow: 0 0 8px var(--yellow-light);
+        }
+
+        /* 统一按钮样式 */
+        .btn {
+            display: block;
+            width: 100%;
+            background: var(--yellow);
+            color: var(--text);
+            padding: 15px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+            background: #FFA000;
+        }
+
+        /* 提示文字 */
+        .tip {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .tip a {
+            color: var(--primary);
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        /* 底部 */
+        footer {
+            background: var(--primary);
+            color: var(--white);
+            text-align: center;
+            padding: 30px;
+            font-size: 18px;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            nav a { margin-left: 15px; font-size: 16px; }
+            .login-card { padding: 30px 25px; }
+            .tab { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 导航栏（和首页一致） -->
+<header>
+  <div class="header-box">
+    <div class="logo">🌱 植物园</div>
+      <nav>
+          <a href="index.html">首页</a>
+          <a href="#">学习资源</a>
+          <a href="#">在线答题</a>
+          <a href="作业提交.html">作业提交</a>
+          <a href="登录.html" class="active">登录/注册<a>
+      </nav>
+    </div>
+</header>
+
+<!-- 登录注册主体 -->
+<div class="login-wrapper">
+    <div class="login-card">
+        <!-- 切换选项卡 -->
+        <div class="tab-group">
+            <div class="tab active" data-target="login">登录</div>
+            <div class="tab" data-target="register">注册</div>
+        </div>
+
+        <!-- 登录表单 -->
+        <div id="login" class="form-box show">
+            <h2 class="form-title">欢迎登录</h2>
+            <div class="input-group">
+                <label>用户名</label>
+                <input type="text" placeholder="请输入用户名" required>
+            </div>
+            <div class="input-group">
+                <label>密码</label>
+                <input type="password" placeholder="请输入密码" required>
+            </div>
+            <button class="btn" onclick="login()">立即登录</button>
+            <p class="tip">没有账号？点击上方 <a href="javascript:switchTab('register')">注册</a></p>
+        </div>
+
+        <!-- 注册表单 -->
+        <div id="register" class="form-box">
+            <h2 class="form-title">免费注册</h2>
+            <div class="input-group">
+                <label>用户名</label>
+                <input type="text" placeholder="请输入用户名" required>
+            </div>
+            <div class="input-group">
+                <label>邮箱</label>
+                <input type="email" placeholder="请输入邮箱" required>
+            </div>
+            <div class="input-group">
+                <label>密码</label>
+                <input type="password" placeholder="请设置密码" required>
+            </div>
+            <div class="input-group">
+                <label>确认密码</label>
+                <input type="password" placeholder="请再次输入密码" required>
+            </div>
+            <button class="btn" onclick="register()">立即注册</button>
+            <p class="tip">已有账号？点击上方 <a href="javascript:switchTab('login')">登录</a></p>
+        </div>
+    </div>
+</div>
+
+<!-- 底部 -->
+<footer>
+    <p>© 2026 植物园 · 微课拓展学习平台</p>
+</footer>
+
+<script>
+    // 切换登录/注册选项卡
+    function switchTab(target) {
+        // 隐藏所有表单
+        document.querySelectorAll('.form-box').forEach(box => {
+            box.classList.remove('show');
+        });
+        // 取消所有标签高亮
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        // 显示目标表单
+        document.getElementById(target).classList.add('show');
+        // 高亮目标标签
+        document.querySelector(`[data-target="${target}"]`).classList.add('active');
+    }
+
+    // 登录功能（基础提示）
+    function login() {
+        alert('登录成功！即将跳转到首页');
+        window.location.href = 'Untitled-1.html';
+    }
+
+    // 注册功能（基础验证+提示）
+    function register() {
+        let pwd = document.querySelectorAll('#register input')[2].value;
+        let repwd = document.querySelectorAll('#register input')[3].value;
+        if(pwd !== repwd){
+            alert('两次输入的密码不一致！');
+            return;
+        }
+        alert('注册成功！请登录');
+        switchTab('login');
+    }
+
+    // 绑定点击事件
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            switchTab(tab.dataset.target);
+        });
+    });
+</script>
+
+</body>
+</html>

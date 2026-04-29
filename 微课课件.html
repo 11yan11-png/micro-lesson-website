@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <title>微课课件 & 学习单 - 植物园 · 微课拓展学习平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Comic Sans MS', sans-serif;
+        }
+
+        :root {
+            --primary: #7CB342;          
+            --primary-dark: #2C5F2D;     
+            --light: #FFF8E1;            
+            --yellow: #FFC107;           
+            --text: #424242;             
+            --white: #FFFFFF;           
+            --shadow: rgba(124, 179, 66, 0.15); 
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.8;
+            padding: 20px 0;
+            /* 新增：预留页脚空间，避免PDF预览区域被遮挡 */
+            margin-bottom: 80px;
+        }
+
+        header {
+            background: var(--primary);
+            padding: 15px 50px;
+            color: var(--white);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .header-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .back-btn {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back-btn:hover {
+            color: var(--yellow);
+            text-decoration: underline;
+        }
+
+        .resource-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        .main-title {
+            text-align: center;
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+        .sub-title {
+            font-size: 26px;
+            color: var(--primary-dark);
+            margin: 40px 0 20px 0;
+            padding-left: 10px;
+            border-left: 5px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .sub-title-icon {
+            font-size: 28px;
+        }
+
+        .file-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px var(--shadow);
+            border: 2px solid var(--primary);
+            margin-bottom: 35px;
+        }
+        .file-card:hover {
+            border-color: var(--yellow);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+
+        .file-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .file-icon {
+            font-size: 45px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .file-header h4 {
+            font-size: 22px;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+        .file-header p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .download-btn-box {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .download-btn {
+            background: var(--yellow);
+            color: #333;
+            padding: 12px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+            border: none;
+            cursor: pointer;
+        }
+        .download-btn:hover {
+            background: #FFA000;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .file-preview {
+            width: 100%;
+            height: 700px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: #ffffff;
+        }
+
+        /* 新增：和截图一致的页脚样式 */
+        footer {
+            background: var(--primary); /* 匹配截图的绿色背景 */
+            color: var(--white);        /* 白色文字 */
+            text-align: center;         /* 文字居中 */
+            padding: 30px;              /* 内边距匹配截图 */
+            font-size: 18px;            /* 字体大小匹配截图 */
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1); /* 底部阴影增加层次感 */
+            /* 固定在页面底部，不随滚动条移动 */
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .file-preview { height: 400px; }
+            .sub-title { font-size: 22px; }
+            .file-header h4 { font-size: 20px; }
+            .download-btn { padding: 10px 25px; font-size: 16px; }
+            /* 移动端页脚适配 */
+            footer { padding: 20px; font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-box">
+        <div class="logo">🌱 植物园</div>
+        <a href="index.html" class="back-btn">← 返回首页</a>
+    </div>
+</header>
+
+<div class="resource-container">
+    <h2 class="main-title">微课课件 & 学习单资源</h2>
+
+    <h3 class="sub-title">
+        <span class="sub-title-icon">📚</span>
+        微课课件（PPT/PPTX）
+    </h3>
+    <div class="file-card">
+        <div class="file-header">
+            <div class="file-icon">📑</div>
+            <h4>蒸腾作用课件</h4>
+            <p>包含植物结构、生长周期、光合作用核心知识点 | PPTX 完整版</p>
+        </div>
+       
+        <div class="download-btn-box">
+            <a href="蒸腾作用课件.pdf" class="download-btn" download>立即下载</a>
+        </div>
+        
+        <iframe 
+            class="file-preview"
+            src="蒸腾作用课件.pdf"  <!-- 替换为你的PPT导出的PDF文件名 -->
+            type="application/pdf"    
+            scrolling="auto">
+            你的浏览器不支持预览文件，请点击上方「立即下载」查看
+        </iframe>
+    </div>
+
+    <h3 class="sub-title">
+        <span class="sub-title-icon">📄</span>
+        学习任务单（DOCX）
+    </h3>
+    <div class="file-card">
+        <div class="file-header">
+            <div class="file-icon">📄</div>
+            <h4>植物探究学习任务单</h4>
+            <p>配套微课课后习题，巩固知识点 | DOCX 可编辑版</p>
+        </div>
+        
+        <div class="download-btn-box">
+            <a href="学习任务单.pdf" class="download-btn" download>立即下载</a>
+        </div>
+        
+        <iframe 
+            class="file-preview"
+            src="学习任务单.pdf"  <!-- 替换为你的Word导出的PDF文件名 -->
+            type="application/pdf"
+            scrolling="auto">
+            你的浏览器不支持预览文件，请点击上方「立即下载」查看
+        </iframe>
+    </div>
+</div>
+
+<!-- 新增：和截图一致的页脚 -->
+<footer>
+    <p>© 2026 植物园 · 微课拓展学习平台</p>
+</footer>
+
+</body>
+</html>
