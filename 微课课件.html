@@ -27,7 +27,6 @@
             color: var(--text);
             line-height: 1.8;
             padding: 20px 0;
-            /* 新增：预留页脚空间，避免PDF预览区域被遮挡 */
             margin-bottom: 80px;
         }
 
@@ -153,15 +152,14 @@
             background: #ffffff;
         }
 
-        /* 新增：和截图一致的页脚样式 */
+
         footer {
-            background: var(--primary); /* 匹配截图的绿色背景 */
-            color: var(--white);        /* 白色文字 */
-            text-align: center;         /* 文字居中 */
-            padding: 30px;              /* 内边距匹配截图 */
-            font-size: 18px;            /* 字体大小匹配截图 */
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.1); /* 底部阴影增加层次感 */
-            /* 固定在页面底部，不随滚动条移动 */
+            background: var(--primary);
+            color: var(--white);       
+            text-align: center;        
+            padding: 30px;             
+            font-size: 18px;          
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1); 
             position: fixed;
             bottom: 0;
             left: 0;
@@ -175,7 +173,6 @@
             .sub-title { font-size: 22px; }
             .file-header h4 { font-size: 20px; }
             .download-btn { padding: 10px 25px; font-size: 16px; }
-            /* 移动端页脚适配 */
             footer { padding: 20px; font-size: 16px; }
         }
     </style>
@@ -233,7 +230,7 @@
         
         <iframe 
             class="file-preview"
-            src="学习任务单.pdf"  <!-- 替换为你的Word导出的PDF文件名 -->
+            src="学习任务单.pdf"  
             type="application/pdf"
             scrolling="auto">
             你的浏览器不支持预览文件，请点击上方「立即下载」查看
@@ -241,7 +238,7 @@
     </div>
 </div>
 
-<!-- 新增：和截图一致的页脚 -->
+
 <footer>
     <p>© 2026 植物园 · 微课拓展学习平台</p>
 </footer>
